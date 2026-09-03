@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRONO FOOT</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(212, 175, 55, 0.12), transparent 35%),
+        #080808;
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      background: rgba(0, 0, 0, 0.92);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar {
+      max-width: 1200px;
+      margin: auto;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #d4af37;
+    }
+
+    .logo span {
+      color: white;
+    }
+
+    nav {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #ddd;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: #d4af37;
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: auto;
+      padding: 70px 20px 45px;
+    }
+
+    .hero-card {
+      background: linear-gradient(
+        135deg,
+        rgba(212, 175, 55, 0.16),
+        rgba(255, 255, 255, 0.02)
+      );
+      border: 1px solid rgba(212, 175, 55, 0.32);
+      border-radius: 26px;
+      padding: 38px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    .badge {
+      display: inline-block;
+      background: #d4af37;
+      color: black;
+      font-weight: 800;
+      border-radius: 999px;
+      padding: 8px 13px;
+      margin-bottom: 18px;
+      font-size: 12px;
+    }
+
+    h1 {
+      font-size: clamp(38px, 8vw, 72px);
+      line-height: 0.95;
+      margin-bottom: 18px;
+    }
+
+    h1 span {
+      color: #d4af37;
+    }
+
+    .hero p {
+      color: #bbb;
+      max-width: 760px;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid #222;
+      padding: 18px;
+      border-radius: 18px;
+    }
+
+    .stat strong {
+      display: block;
+      color: #d4af37;
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 10px 20px 60px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 15px;
+      margin: 28px 0 18px;
+    }
+
+    .section-title h2 {
+      font-size: 30px;
+    }
+
+    .section-title p {
+      color: #888;
+      font-size: 13px;
+    }
+
+    .leagues {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .league-btn {
+      border: 1px solid #333;
+      background: #111;
+      color: #ddd;
+      padding: 11px 15px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .league-btn.active,
+    .league-btn:hover {
+      background: #d4af37;
+      color: #000;
+      border-color: #d4af37;
+      font-weight: bold;
+    }
+
+    .matches {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .match-card {
+      background: #101010;
+      border: 1px solid #242424;
+      border-radius: 22px;
+      padding: 22px;
+      transition: 0.2s ease;
+    }
+
+    .match-card:hover {
+      border-color: rgba(212, 175, 55, 0.55);
+      transform: translateY(-3px);
+    }
+
+    .match-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .league-name {
+      color: #d4af37;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .time {
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .teams {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .prediction-main {
+      padding: 15px;
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 15px;
+      margin-bottom: 16px;
+    }
+
+    .prediction-main small {
+      color: #aaa;
+    }
+
+    .prediction-main strong {
+      display: block;
+      font-size: 20px;
+      margin-top: 5px;
+    }
+
+    .grid-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .info {
+      background: #151515;
+      padding: 12px;
+      border-radius: 13px;
+    }
+
+    .info span {
+      display: block;
+      color: #888;
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+
+    .confidence {
+      margin-top: 17px;
+    }
+
+    .confidence-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 9px;
+      background: #272727;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+    }
+
+    .green { background: #22c55e; }
+    .orange { background: #f59e0b; }
+    .red { background: #ef4444; }
+
+    .championships {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .champ-card {
+      border: 1px solid #232323;
+      background: #0f0f0f;
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .champ-card strong {
+      font-size: 18px;
+    }
+
+    .champ-card p {
+      color: #777;
+      font-size: 13px;
+      margin-top: 7px;
+      line-height: 1.5;
+    }
+
+    .gold {
+      color: #d4af37;
+    }
+
+    .disclaimer {
+      margin-top: 40px;
+      padding: 20px;
+      border-radius: 18px;
+      border: 1px solid #252525;
+      background: #0c0c0c;
+      color: #888;
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    footer {
+      text-align: center;
+      color: #666;
+      padding: 30px 20px 45px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 850px) {
+      .matches,
+      .championships {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero-card {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="logo">PRONO <span>FOOT</span></div>
+
+    <nav>
+      <a href="#pronostics">Pronostics</a>
+      <a href="#championnats">Championnats</a>
+      <a href="#historique">Historique</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-card">
+    <span class="badge">⚽ ANALYSES FOOTBALL</span>
+
+    <h1>
+      PRONO <span>FOOT</span>
+    </h1>
+
+    <p>
+      Analyse des matchs, tendances, probabilités, scores probables et buteurs
+      potentiels sur plusieurs championnats internationaux.
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <strong>6</strong>
+        Championnats suivis
+      </div>
+
+      <div class="stat">
+        <strong>H24</strong>
+        Analyse prévue
+      </div>
+
+      <div class="stat">
+        <strong>1X2</strong>
+        Buts, BTTS et buteurs
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <section id="pronostics">
+
+    <div class="section-title">
+      <div>
+        <h2>Pronostics du jour</h2>
+        <p>Exemples de présentation — données automatiques à connecter ensuite.</p>
+      </div>
+    </div>
+
+    <div class="leagues">
+      <button class="league-btn active">Tous</button>
+      <button class="league-btn">Paraguay</button>
+      <button class="league-btn">Chili</button>
+      <button class="league-btn">Chine</button>
+      <button class="league-btn">Colombie</button>
+      <button class="league-btn">Lettonie</button>
+      <button class="league-btn">Mexique</button>
+    </div>
+
+    <div class="matches">
+
+      <article class="match-card">
+        <div class="match-top">
+          <span class="league-name">Paraguay Primera División</span>
+          <span class="time">22:30</span>
+        </div>
+
+        <div class="teams">
+          Équipe domicile<br>
+          <span class="gold">vs</span><br>
+          Équipe extérieure
+        </div>
+
+        <div class="prediction-main">
+          <small>Pronostic principal</small>
+          <strong>Victoire domicile</strong>
+        </div>
+
+        <div class="grid-info">
+          <div class="info">
+            <span>1X2</span>
+            1
+          </div>
+
+          <div class="info">
+            <span>Score probable</span>
+            2 - 1
+          </div>
+
+          <div class="info">
+            <span>+ / - 2,5 buts</span>
+            +2,5
+          </div>
+
+          <div class="info">
+            <span>BTTS</span>
+            Oui
+          </div>
+
+          <div class="info">
+            <span>Buteur probable</span>
+            Attaquant principal
+          </div>
+
+          <div class="info">
+            <span>Forme</span>
+            Bonne
+          </div>
+        </div>
+
+        <div class="confidence">
+          <div class="confidence-row">
+            <span>Confiance</span>
+            <strong>78%</strong>
+          </div>
+
+          <div class="bar">
+            <div class="bar-fill green" style="width:78%"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="match-card">
+        <div class="match-top">
+          <span class="league-name">Colombie Primera A</span>
+          <span class="time">01:00</span>
+        </div>
+
+        <div class="teams">
+          Équipe A<br>
+          <span class="gold">vs</span><br>
+          Équipe B
+        </div>
+
+        <div class="prediction-main">
+          <small>Pronostic principal</small>
+          <strong>Double chance 1X</strong>
+        </div>
+
+        <div class="grid-info">
+          <div class="info">
+            <span>1X2</span>
+            1X
+          </div>
+
+          <div class="info">
+            <span>Score probable</span>
+            1 - 1
+          </div>
+
+          <div class="info">
+            <span>+ / - 2,5 buts</span>
+            -2,5
+          </div>
+
+          <div class="info">
+            <span>BTTS</span>
+            Oui
+          </div>
+
+          <div class="info">
+            <span>Buteur probable</span>
+            Avant-centre
+          </div>
+
+          <div class="info">
+            <span>Forme</span>
+            Moyenne
+          </div>
+        </div>
+
+        <div class="confidence">
+          <div class="confidence-row">
+            <span>Confiance</span>
+            <strong>67%</strong>
+          </div>
+
+          <div class="bar">
+            <div class="bar-fill orange" style="width:67%"></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="championnats">
+
+    <div class="section-title">
+      <div>
+        <h2>Championnats</h2>
+        <p>Les compétitions principales de PRONO FOOT.</p>
+      </div>
+    </div>
+
+    <div class="championships">
+
+      <div class="champ-card">
+        <strong>🇵🇾 Paraguay</strong>
+        <p>Primera División</p>
+      </div>
+
+      <div class="champ-card">
+        <strong>🇨🇱 Chili</strong>
+        <p>Primera División</p>
+      </div>
+
+      <div class="champ-card">
+        <strong>🇨🇳 Chine</strong>
+        <p>Chinese Super League</p>
+      </div>
+
+      <div class="champ-card">
+        <strong>🇨🇴 Colombie</strong>
+        <p>Primera A</p>
+      </div>
+
+      <div class="champ-card">
+        <strong>🇱🇻 Lettonie</strong>
+        <p>Virslīga</p>
+      </div>
+
+      <div class="champ-card">
+        <strong>🇲🇽 Mexique</strong>
+        <p>Liga MX</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="historique">
+
+    <div class="section-title">
+      <div>
+        <h2>Historique</h2>
+        <p>Cette partie affichera plus tard les pronostics gagnés et perdus.</p>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong class="gold">Important :</strong>
+      les pronostics présentés sur PRONO FOOT sont des estimations statistiques.
+      Aucun résultat sportif n'est garanti. Les scores, buteurs et probabilités
+      peuvent évoluer selon les compositions, blessures et informations disponibles.
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  © 2026 PRONO FOOT — Analyses football
+</footer>
+
+<script>
+  const buttons = document.querySelectorAll(".league-btn");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      buttons.forEach(b => b.classList.remove("active"));
+      button.classList.add("active");
+    });
+  });
+</script>
+
+</body>
+</html>
